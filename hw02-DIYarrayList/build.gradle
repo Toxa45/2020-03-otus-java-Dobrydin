@@ -13,7 +13,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveBaseName.set('gradleHelloOtus')
+    archiveBaseName.set('gradleDIYarrayList')
     archiveVersion.set('0.1')
     manifest {
         attributes 'Main-Class': 'ru.otus.App'
