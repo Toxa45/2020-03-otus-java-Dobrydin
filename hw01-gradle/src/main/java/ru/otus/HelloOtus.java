@@ -14,7 +14,6 @@ public class HelloOtus {
         for (int i = min; i < max; i++) {
             example.add(i);
         }
-
         System.out.println(Joiner.on(", ").join(Lists.reverse(example)));
     }
 }
