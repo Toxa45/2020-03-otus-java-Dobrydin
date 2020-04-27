@@ -1,7 +1,7 @@
+package ru.otus;
 
 import com.google.common.base.Joiner;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +17,7 @@ public class App {
         for (int i = min; i < max; i++) {
             diYarrayList.add(i);
         }
-        System.out.println("new DIYarrayList - ");
+        System.out.println("DIYarrayList - ");
         System.out.println(Joiner.on(", ").join(diYarrayList));
 
         //сортировка листа
