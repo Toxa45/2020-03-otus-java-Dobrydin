@@ -12,5 +12,5 @@
 
 
 ### Домашние работы
-№1 - модуль "hw01-gradle"
-№2 - модуль "hw02-DIYarrayList"
+№1 - модуль "hw01-gradle"<br>
+№2 - модуль "hw02-DIYarrayList"<br>
