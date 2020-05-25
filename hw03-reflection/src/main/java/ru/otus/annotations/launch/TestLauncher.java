@@ -13,6 +13,7 @@ public class TestLauncher {
     private static final String AFTER_ANNOTATION = "After";
     private int allTests = 0;
     private int completedTests = 0;
+    private int errorTests = 0;
     public TestLauncher() {
     }
     public void run(String classNAme) throws ClassNotFoundException, NoSuchMethodException {
@@ -24,7 +25,7 @@ public class TestLauncher {
         allTests = testAnnotationMethodsArray.length;
 
         invokeTestMethods(beforeAnnotationMethodsArray,testAnnotationMethodsArray,afterAnnotationMethodsArray, clazz.getConstructor());
-        printStatistic(allTests, completedTests, allTests-completedTests);
+        printStatistic(allTests, completedTests, errorTests);
     }
 
     private static Method[] getMethodsWithAnnotations(Method[] methods,Class<? extends Annotation> annotationClass) {
@@ -39,21 +40,28 @@ public class TestLauncher {
                 objectTest = constructor.newInstance();
             } catch (InstantiationException|IllegalAccessException|InvocationTargetException e) {
                 e.printStackTrace();
+                errorTests++;
                 continue;
             }
+            boolean errorInvokeTestsMethod = false;
             try {
                 invokeMethods(beforeAnnotationMethodsArray,objectTest);
                 invokeMethod(method,objectTest);
             } catch (InvocationTargetException|IllegalAccessException e) {
                 e.printStackTrace();
                 System.out.println("Error execute method: " + method.getName());
+                errorInvokeTestsMethod=true;
             }finally {
                 try {
                     invokeMethods(afterAnnotationMethodsArray,objectTest);
-                    completedTests++;
+                    if(errorInvokeTestsMethod)
+                        errorTests++;
+                    else
+                        completedTests++;
                 } catch (InvocationTargetException | IllegalAccessException ex) {
                     ex.printStackTrace();
                     System.out.println("Error execute After method " + method.getName());
+                    errorTests++;
                 }
             }
         }
