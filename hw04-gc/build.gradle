@@ -13,10 +13,10 @@ dependencies {
 }
 
 shadowJar {
-    archiveBaseName.set('gradleDIYarrayList')
+    archiveBaseName.set('hw04-gc')
     archiveVersion.set('0.1')
     manifest {
-        attributes 'Main-Class': 'ru.otus.App'
+        attributes 'Main-Class': 'ru.otus.AppGc'
     }
 }
 
