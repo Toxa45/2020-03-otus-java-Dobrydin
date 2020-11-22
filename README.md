@@ -15,3 +15,5 @@
 №1 - модуль "hw01-gradle"<br>
 №2 - модуль "hw02-DIYarrayList"<br>
 №3 - модуль "hw03-reflection"<br>
+№4 - модуль "hw04-gc"<br>
+№5 - модуль "hw05-aop"<br>
