@@ -7,8 +7,9 @@
  * in the user manual at https://docs.gradle.org/6.3/userguide/multi_project_builds.html
  */
 
-rootProject.name = '2020-03-otus-java-dobrydin'
+rootProject.name = '2020-09-otus-java-dobrydin'
 include 'hw01-gradle'
 include 'hw02-DIYarrayList'
 include 'hw03-reflection'
+include 'hw04-gc'
 
