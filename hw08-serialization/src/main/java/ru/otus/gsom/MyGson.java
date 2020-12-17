@@ -10,7 +10,7 @@ import ru.otus.gsom.converters.ConvertersFactory;
 @Getter
 public class MyGson {
 
-  private final List<Converter> converters;
+  private final List<Converter<?>> converters;
 
   private final JsonProvider jsonProvider = JsonProvider.provider();
 

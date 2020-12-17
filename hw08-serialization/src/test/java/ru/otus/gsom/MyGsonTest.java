@@ -25,7 +25,6 @@ class MyGsonTest {
   void toJson() {
     AnyObject anyObject = null;
 
-    MyGson myGson = new MyGson();
     String myJson = myGson.toJson(anyObject);
     AnyObject objDes = gson.fromJson(myJson, AnyObject.class);
     assertEquals(anyObject, objDes, "ошибка при сериализации - "+anyObject);

@@ -19,15 +19,15 @@ import ru.otus.gsom.MyGson;
 
 public class Converters {
 
-  public static final Converter STRING_CONVERTER = new ConverterBase<String>(
+  public static final Converter<String> STRING_CONVERTER = new ConverterBase<>(
       (object, myGson) -> myGson.getJsonProvider().createValue(object),
       String.class);
 
-  public static final Converter CHARACTER_CONVERTER = new ConverterBase<Character>(
-      (object, myGson) -> myGson.getJsonProvider().createValue(object),
+  public static final Converter<Character> CHARACTER_CONVERTER = new ConverterBase<>(
+      (object, myGson) -> myGson.getJsonProvider().createValue(object.toString()),
       Character.class);
 
-  public static final Converter NUMBER_CONVERTER = new ConverterBase<Number>(
+  public static final Converter<Number> NUMBER_CONVERTER = new ConverterBase<>(
       (object, myGson) ->
       {
         var jsonProvider = myGson.getJsonProvider();
@@ -55,19 +55,18 @@ public class Converters {
       Number.class
   );
 
-  public static final Converter BOOLEAN_CONVERTER = new ConverterBase<Boolean>(
+  public static final Converter<Boolean> BOOLEAN_CONVERTER = new ConverterBase<>(
       (object, myGson) ->
-      {
-        return object == null
-            ? JsonValue.NULL
-            : object
-                ? JsonValue.FALSE
-                : JsonValue.TRUE;
-      },
+          object == null
+              ? JsonValue.NULL
+              : object
+                  ? JsonValue.TRUE
+                  : JsonValue.FALSE
+      ,
       Boolean.class
   );
 
-  public static final Converter COLLECTION_CONVERTER = new ConverterBase<Collection>(
+  public static final Converter<Collection> COLLECTION_CONVERTER = new ConverterBase<>(
       (object, myGson) -> {
         JsonArrayBuilder arrayBuilder = myGson.getJsonProvider().createArrayBuilder();
         object.forEach(el -> {
@@ -79,27 +78,26 @@ public class Converters {
   );
 
 
-  public static final Converter ARRAY_CONVERTER = new ConverterBase<Object>(
+  public static final Converter<Object> ARRAY_CONVERTER = new ConverterBase<>(
       (Class<?> clazz) -> clazz.isArray(),
       (object, myGson) -> {
         JsonArrayBuilder arrayBuilder = myGson.getJsonProvider().createArrayBuilder();
-        for(int index=0; index<Array.getLength(object); index++)
-        {
+        for (int index = 0; index < Array.getLength(object); index++) {
           arrayBuilder.add(myGson.toJsonValue(Array.get(object, index)));
-        };
+        }
         return arrayBuilder.build();
       },
       Object.class
   );
 
 
-  public static final Converter SUPER_OBJECT_CLASS_CONVERTER = new ConverterBase<Object>(
+  public static final Converter<Object> SUPER_OBJECT_CLASS_CONVERTER = new ConverterBase<>(
       (Class<?> clazz) -> clazz.equals(Object.class),
       (object, myGson) -> myGson.getJsonProvider().createObjectBuilder().build(),
       Object.class
   );
 
-  public static final Converter MAP_CONVERTER = new ConverterBase<Map>(
+  public static final Converter<Map> MAP_CONVERTER = new ConverterBase<>(
       Converters::adaptMap,
       Map.class
   );
@@ -110,7 +108,7 @@ public class Converters {
     return builder.build();
   }
 
-  public static final Converter<Object> OBJECT_CLASS_CONVERTER = new ConverterBase<Object>(
+  public static final Converter<Object> OBJECT_CLASS_CONVERTER = new ConverterBase<>(
       (Class<?> clazz) -> !Object.class.equals(clazz),
       Converters::objectAdapter,
       Object.class

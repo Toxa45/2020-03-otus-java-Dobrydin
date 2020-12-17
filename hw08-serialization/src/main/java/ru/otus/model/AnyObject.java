@@ -13,6 +13,8 @@ public class AnyObject extends SuperAnyObject{
   private static int fieldIntStatic = 100_000;
   private int fieldInt;
   private double fieldDouble;
+  private boolean aBoolean = false;
+  private char aChar = 'H';
   private Integer fieldIntegerWrap;
   private Double fieldDoubleWrap;
   private String fieldAtring;
