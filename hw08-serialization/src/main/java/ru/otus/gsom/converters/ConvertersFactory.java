@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ConvertersFactory {
   public static final List<Converter<?>> poolConverters(){
-    final List<Converter<?>> converters = new LinkedList();
+    final List<Converter<?>> converters = new LinkedList<>();
     converters.add(Converters.COLLECTION_CONVERTER);
     converters.add(Converters.ARRAY_CONVERTER);
     converters.add(Converters.BOOLEAN_CONVERTER);

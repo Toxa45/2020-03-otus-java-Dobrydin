@@ -34,18 +34,17 @@ public class Converters {
 
         //т.к. createValue принимаем минимум int
         JsonNumber jsonProviderValue;
-        if (Byte.class.isInstance(object) || Short.class.isInstance(object) || Integer.class
-            .isInstance(object)) {
+        if (object instanceof Byte || object instanceof Short || object instanceof Integer) {
           jsonProviderValue = jsonProvider.createValue(object.intValue());
-        } else if (Long.class.isInstance(object)) {
+        } else if (object instanceof Long) {
           jsonProviderValue = jsonProvider.createValue(object.longValue());
-        } else if (Float.class.isInstance(object)) {
+        } else if (object instanceof Float) {
           jsonProviderValue = jsonProvider.createValue(object.floatValue());
-        } else if (Double.class.isInstance(object)) {
+        } else if (object instanceof Double) {
           jsonProviderValue = jsonProvider.createValue(object.doubleValue());
-        } else if (BigInteger.class.isInstance(object)) {
+        } else if (object instanceof BigInteger) {
           jsonProviderValue = jsonProvider.createValue((BigInteger) object);
-        } else if (BigDecimal.class.isInstance(object)) {
+        } else if (object instanceof BigDecimal) {
           jsonProviderValue = jsonProvider.createValue((BigDecimal) object);
         } else {
           throw new IllegalArgumentException("Type converter not found, value " + object);
@@ -79,7 +78,7 @@ public class Converters {
 
 
   public static final Converter<Object> ARRAY_CONVERTER = new ConverterBase<>(
-      (Class<?> clazz) -> clazz.isArray(),
+      Class::isArray,
       (object, myGson) -> {
         JsonArrayBuilder arrayBuilder = myGson.getJsonProvider().createArrayBuilder();
         for (int index = 0; index < Array.getLength(object); index++) {
