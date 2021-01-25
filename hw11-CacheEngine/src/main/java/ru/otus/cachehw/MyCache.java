@@ -4,10 +4,14 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.WeakHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MyCache<K, V> implements HwCache<K, V> {
+  private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
 
   private final static String PUT = "put";
   private final static String GET = "get";
@@ -44,13 +48,13 @@ public class MyCache<K, V> implements HwCache<K, V> {
 
   @Override
   public void addListener(HwListener<K, V> listener) {
-    listeners.add(new WeakReference(listener));
+    listeners.add(new WeakReference<>(listener));
   }
 
   @Override
   public void removeListener(HwListener<K, V> listener) {
-    listeners.stream().filter(el -> el.get() != null && el.get().equals(listener)).findFirst()
-        .ifPresent(el -> listeners.remove(el));
+    listeners.stream().filter(el -> el.get() != null && Objects.equals(el.get(), listener)).findFirst()
+        .ifPresent(listeners::remove);
   }
 
 
@@ -67,7 +71,7 @@ public class MyCache<K, V> implements HwCache<K, V> {
           countListeners--;
         }
       } catch (Exception ex) {
-        ex.printStackTrace();
+        logger.debug("error notify",ex);
       }
     }
   }
