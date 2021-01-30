@@ -5,4 +5,5 @@ public interface Versions {
     String testcontainers = "1.14.3";
     String postgresql = "42.2.5";
     String lombok = "1.18.16";
+    String reflections = "0.9.12";
 }
