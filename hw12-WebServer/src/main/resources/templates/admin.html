@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Пользователи</title>
+    <script>
+        function getUserById() {
+            const userIdTextBox = document.getElementById('userIdTextBox');
+            const userDataContainer = document.getElementById('userDataContainer');
+            const id = userIdTextBox.value;
+            //fetch('api/user?id=' + id)
+            fetch('api/user/' + id)
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+        }
+    </script>
+</head>
+
+<body>
+<a href="/">Вернуться на стартовую страницу</a>
+<br/>
+<h4>Создать пользователя</h4>
+<form action="/admin" method="post">
+    <p> Введите имя пользователя
+        <br>
+        <input type="text" name="userName">
+    </p>
+    <p> Введите логин пользователя
+        <br>
+        <input type="text" name="userLogin">
+    </p>
+    <p> Введите пароль пользователя
+        <br>
+        <input type="password" name="userPassword">
+    </p>
+    <br>
+    <button type="submit">Сохранить</button>
+</form>
+
+<h4>Случайный пользователь</h4>
+<table style="width: 400px">
+    <thead>
+        <tr>
+            <td style="width: 50px">Id</td>
+            <td style="width: 150px">Имя</td>
+            <td style="width: 100px">Логин</td>
+            <td style="width: 100px">Роль</td>
+            <td style="width: 100px">Пароль</td>
+        </tr>
+    </thead>
+    <tbody>
+    <#list userList as item>
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.login}</td>
+            <td>${item.role}</td>
+            <td>${item.password}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+</body>
+</html>
