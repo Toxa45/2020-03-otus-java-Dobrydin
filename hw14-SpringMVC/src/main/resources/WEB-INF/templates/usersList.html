@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all users</title>
+
+    <script>
+        function getUser(url, valueControlName) {
+            const valueControl = document.getElementById(valueControlName);
+            const userDataContainer = document.getElementById('userDataContainer');
+            const fullUrl = url + (valueControl? (encodeURIComponent(valueControl.value)) : '');
+            fetch(fullUrl)
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+        }
+    </script>
+
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .users, .users td {
+            border: 1px solid lightgray;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            display: block;
+        }
+
+        input {
+            width: 150px;
+        }
+
+
+        select {
+            width: 154px;
+        }
+
+        button {
+            width: 250px;
+        }
+
+        .controls-container {
+            margin-bottom: 5px;
+        }
+
+        .single-button-container {
+            margin-left: 158px;
+        }
+
+        h3 {
+            background: url("../static/listmark.png") no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+    </style>
+
+    <style th:inline="text">
+        h3 {
+            background: url([[@{/static/listmark.png}]]) no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Клиенты:</h3>
+
+    <table class="users">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.name}">John Doe</td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/user/create}" href="userCreate.html">New user</a>
+
+    <br/><br/>
+    <h3>Тест View без контроллера:</h3>
+    <a th:href="@{/no-handler-view}">Перейти на View без контроллера</a>
+
+
+    <br/><br/>
+    <h3>API:</h3>
+
+
+    <a th:href="@{/api/user?name=admin}">
+        Запрос клиента по имени admin
+    </a>
+    <a th:href="@{/api/user/2}">Запрос клиента с id = 2</a>
+    <br/>
+    <br/>
+
+    <div class="controls-container">
+        <input type="text" id = "userIdTextBox" value="3" placeholder="Введите id клиента" >
+        <button onclick="getUser('api/user/', 'userIdTextBox')">Получить пользователя по id</button>
+    </div>
+
+    <pre id = "userDataContainer"></pre>
+
+</body>
+</html>
