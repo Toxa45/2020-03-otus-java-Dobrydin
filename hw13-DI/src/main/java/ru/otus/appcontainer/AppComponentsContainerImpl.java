@@ -1,11 +1,13 @@
 package ru.otus.appcontainer;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.reflections.Reflections;
@@ -20,8 +22,8 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
   private static final Logger logger = LoggerFactory.getLogger(AppComponentsContainerImpl.class);
 
+  private final List<Object> appComponents = new ArrayList<>();
   private final Map<String, Object> appComponentsByName = new HashMap<>();
-  private final Map<Class<?>, Object> configClassByInstance = new HashMap<>();
 
   public AppComponentsContainerImpl(String packageNameScan) {
 
@@ -34,7 +36,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
       rootResourceClasses.toArray(initialConfigClassses);
 
       processConfig(initialConfigClassses);
-    }catch (Exception e){
+    } catch (Exception e) {
       logger.error("error scan package", e);
       throw new RuntimeException(e);
     }
@@ -48,8 +50,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     checkConfigClass(configClasses);
 
-    buildConfigClassByInstance(configClasses);
-
     buildAppComponentsByName(configClasses);
   }
 
@@ -59,8 +59,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     orderMethodBeans.forEach(method -> {
       Object newBean = getNewBean(method, getBeanArgs(method));
 
-      appComponentsByName.put(newBean.getClass().getName(), newBean);
-      appComponentsByName.put(method.getReturnType().getName(), newBean);
+      appComponents.add(newBean);
       appComponentsByName.put(method.getAnnotation(AppComponent.class).name(), newBean);
     });
 
@@ -68,7 +67,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
   private Object getNewBean(Method method, Object[] args) {
     try {
-      return method.invoke(configClassByInstance.get(method.getDeclaringClass()), args);
+      return method.invoke(getInstanceConfigClass(method.getDeclaringClass()), args);
     } catch (Exception e) {
       logger.error("new instance bean", e);
       throw new RuntimeException(e);
@@ -78,6 +77,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
   private Object[] getBeanArgs(Method method) {
     return Arrays.stream(method.getParameterTypes())
         .map(this::getAppComponent)
+        .filter(Objects::nonNull)
         .toArray();
   }
 
@@ -92,13 +92,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 + o.getAnnotation(AppComponent.class).order()
         ))
         .collect(Collectors.toList());
-  }
-
-
-  private void buildConfigClassByInstance(Class<?>... configClasses) {
-    for (Class<?> configClass : configClasses) {
-      configClassByInstance.put(configClass, getInstanceConfigClass(configClass));
-    }
   }
 
   private Object getInstanceConfigClass(Class<?> configClass) {
@@ -121,7 +114,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
   @Override
   public <C> C getAppComponent(Class<C> componentClass) {
-    return getAppComponent(componentClass.getName());
+    return (C) appComponents.stream().filter(componentClass::isInstance).findFirst().orElse(null);
   }
 
   @Override
