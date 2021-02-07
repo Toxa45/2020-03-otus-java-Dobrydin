@@ -37,8 +37,8 @@ dependencies {
 
     implementation("com.google.code.gson:gson:${Versions.gson}")
 
-    testCompile ("org.springframework:spring-test")
-    testCompile ("org.hamcrest:hamcrest-core")
+    testCompile("org.springframework:spring-test")
+    testCompile("org.hamcrest:hamcrest-core")
 
 
 }

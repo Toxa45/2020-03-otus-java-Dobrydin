@@ -3,6 +3,7 @@ package ru.otus.hibernate.dao;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +16,12 @@ import ru.otus.model.User;
 import ru.otus.sessionmanager.SessionManager;
 
 @Repository
+@RequiredArgsConstructor
 public class UserDaoHibernate implements UserDao {
 
   private static final Logger logger = LoggerFactory.getLogger(UserDaoHibernate.class);
 
   private final SessionManagerHibernate sessionManager;
-
-  public UserDaoHibernate(SessionManagerHibernate sessionManager) {
-    this.sessionManager = sessionManager;
-  }
 
   @Override
   public Optional<User> findById(Long id) {
@@ -84,7 +82,7 @@ public class UserDaoHibernate implements UserDao {
       if (users.isEmpty()) {
         return Optional.empty();
       } else {
-        return  Optional.of(users.get(0));
+        return Optional.of(users.get(0));
       }
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

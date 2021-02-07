@@ -27,18 +27,18 @@ import org.hibernate.annotations.NamedQuery;
 @EqualsAndHashCode(of = "id")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USER_GENERATOR")
-    @SequenceGenerator(name = "SEQ_USER_GENERATOR", sequenceName = "SEQ_USER", allocationSize = 1)
-    @Column(name = "id")
-    private long id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "login")
-    private String login;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.ROLE_USER;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USER_GENERATOR")
+  @SequenceGenerator(name = "SEQ_USER_GENERATOR", sequenceName = "SEQ_USER", allocationSize = 1)
+  @Column(name = "id")
+  private long id;
+  @Column(name = "name")
+  private String name;
+  @Column(name = "login")
+  private String login;
+  @Column(name = "password")
+  private String password;
+  @Column(name = "role")
+  @Enumerated(EnumType.STRING)
+  private Role role = Role.ROLE_USER;
 }

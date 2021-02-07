@@ -37,7 +37,7 @@ class UserRestControllerTest {
 
   @Test
   void getUserById() throws Exception {
-    User expectedUser = new User(1, "Vasya","pypkin","pass", Role.ROLE_USER);
+    User expectedUser = new User(1, "Vasya", "pypkin", "pass", Role.ROLE_USER);
     Gson gson = new GsonBuilder().create();
     given(userService.getById(1L)).willReturn(Optional.of(expectedUser));
     mvc.perform(get("/api/user/{id}", 1L))

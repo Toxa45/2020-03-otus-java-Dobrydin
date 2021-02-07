@@ -5,24 +5,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MigrationsExecutorFlyway {
-    private static final Logger logger = LoggerFactory.getLogger(MigrationsExecutorFlyway.class);
 
-    private final Flyway flyway;
+  private static final Logger logger = LoggerFactory.getLogger(MigrationsExecutorFlyway.class);
 
-    public MigrationsExecutorFlyway(String dbUrl, String dbUserName, String dbPassword) {
-        flyway = Flyway.configure()
-                .dataSource(dbUrl, dbUserName, dbPassword)
-                .locations("classpath:/db/migration")
-                .load();
-    }
+  private final Flyway flyway;
 
-    public void cleanDb() {
-        flyway.clean();
-    }
+  public MigrationsExecutorFlyway(String dbUrl, String dbUserName, String dbPassword) {
+    flyway = Flyway.configure()
+        .dataSource(dbUrl, dbUserName, dbPassword)
+        .locations("classpath:/db/migration")
+        .load();
+  }
 
-    public void executeMigrations() {
-        logger.info("db migration started...");
-        flyway.migrate();
-        logger.info("db migration finished.");
-    }
+  public void cleanDb() {
+    flyway.clean();
+  }
+
+  public void executeMigrations() {
+    logger.info("db migration started...");
+    flyway.migrate();
+    logger.info("db migration finished.");
+  }
 }

@@ -3,6 +3,7 @@ package ru.otus.service.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,15 +13,12 @@ import ru.otus.service.DbServiceException;
 import ru.otus.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class DbServiceUserImpl implements UserService {
 
   private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
 
   private final UserDao userDao;
-
-  public DbServiceUserImpl(UserDao userDao) {
-    this.userDao = userDao;
-  }
 
   @Override
   public Long save(User user) {
